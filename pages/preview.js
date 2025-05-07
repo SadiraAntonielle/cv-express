@@ -59,7 +59,7 @@ export default function Preview() {
           <p>{dados.telefone}</p>
           <p>{dados.linkedin}</p>
           <p style={{ marginBottom: "1rem" }}>
-            {dados.endereco?.rua}, {dados.endereco?.numero} — {dados.endereco?.bairro}, {dados.endereco?.cidade} — CEP {dados.endereco?.cep}
+            {dados.endereco?.rua}, {dados.endereco?.numero}, {dados.endereco?.bairro}, {dados.endereco?.cidade}, CEP {dados.endereco?.cep}
           </p>
 
           {dados.formacoes?.length > 0 && (

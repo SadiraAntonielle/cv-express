@@ -145,3 +145,8 @@ body {
   align-items: center;
 }
 
+.card * {
+  color: #111 !important;
+}
+
+
