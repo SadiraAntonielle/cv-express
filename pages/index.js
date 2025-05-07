@@ -11,8 +11,8 @@ export default function Home() {
     endereco: "",
     formacoes: [{ curso: "", instituicao: "", periodo: "" }],
     habilidades: [""],
-    cursos: [""],
-    experiencias: [{ empresa: "", cargo: "", periodo: "", descricao: "" }]
+    cursos: [{ nome: "", instituicao: "", carga: "" }],
+    experiencias: [{ empresa: "", cargo: "", periodo: "", descricao: "" }],
   });
 
   const router = useRouter();
@@ -36,7 +36,7 @@ export default function Home() {
       formacoes: { curso: "", instituicao: "", periodo: "" },
       experiencias: { empresa: "", cargo: "", periodo: "", descricao: "" },
       habilidades: "",
-      cursos: ""
+      cursos: { nome: "", instituicao: "", carga: "" },
     };
     setDados({ ...dados, [campo]: [...dados[campo], novos[campo]] });
   };
@@ -47,143 +47,173 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center p-4">
-      <div className="w-full max-w-2xl bg-white p-6 rounded shadow">
-        <h1 className="text-2xl font-bold mb-4 text-center text-blue-800">CV Express</h1>
+    <div className="container">
+      <div className="card">
+        <h1 className="title">CV Express</h1>
 
-        {/* Dados pessoais */}
-        {["nome", "cargo", "email", "telefone", "linkedin", "endereco"].map((campo) => (
-          <div className="mb-4" key={campo}>
-            <label className="block text-sm font-medium mb-1 capitalize text-blue-800">{campo}</label>
-            <input
-              type="text"
-              name={campo}
-              value={dados[campo]}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-        ))}
+        {["nome", "cargo", "email", "telefone", "linkedin", "endereco"].map(
+          (campo) => (
+            <div key={campo}>
+              <label className="label">{campo}</label>
+              <input
+                type="text"
+                name={campo}
+                value={dados[campo]}
+                onChange={handleChange}
+                className="input"
+              />
+            </div>
+          )
+        )}
 
-        {/* Formação Acadêmica */}
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-blue-800">Formação Acadêmica</h2>
+        <div>
+          <h2 className="label">Formação Acadêmica</h2>
           {dados.formacoes.map((f, i) => (
-            <div key={i} className="mb-3">
+            <div key={i}>
               <input
                 type="text"
                 placeholder="Curso"
-                className="w-full mb-1 border rounded px-3 py-2"
+                className="input"
                 value={f.curso}
-                onChange={(e) => handleItemChange("formacoes", i, e.target.value, "curso")}
+                onChange={(e) =>
+                  handleItemChange("formacoes", i, e.target.value, "curso")
+                }
               />
               <input
                 type="text"
                 placeholder="Instituição"
-                className="w-full mb-1 border rounded px-3 py-2"
+                className="input"
                 value={f.instituicao}
-                onChange={(e) => handleItemChange("formacoes", i, e.target.value, "instituicao")}
+                onChange={(e) =>
+                  handleItemChange("formacoes", i, e.target.value, "instituicao")
+                }
               />
               <input
                 type="text"
                 placeholder="Período"
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 value={f.periodo}
-                onChange={(e) => handleItemChange("formacoes", i, e.target.value, "periodo")}
+                onChange={(e) =>
+                  handleItemChange("formacoes", i, e.target.value, "periodo")
+                }
               />
             </div>
           ))}
           <button
-            type="button"
             onClick={() => adicionarCampo("formacoes")}
-            className="text-blue-600 text-sm"
+            className="link-button"
           >
             + Adicionar formação
           </button>
         </div>
 
-        {/* Experiências Profissionais */}
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-blue-800">Experiência Profissional</h2>
+        <div>
+          <h2 className="label">Experiência Profissional</h2>
           {dados.experiencias.map((e, i) => (
-            <div key={i} className="mb-3">
+            <div key={i}>
               <input
                 type="text"
                 placeholder="Empresa"
-                className="w-full mb-1 border rounded px-3 py-2"
+                className="input"
                 value={e.empresa}
-                onChange={(e) => handleItemChange("experiencias", i, e.target.value, "empresa")}
+                onChange={(ev) =>
+                  handleItemChange("experiencias", i, ev.target.value, "empresa")
+                }
               />
               <input
                 type="text"
                 placeholder="Cargo"
-                className="w-full mb-1 border rounded px-3 py-2"
+                className="input"
                 value={e.cargo}
-                onChange={(e) => handleItemChange("experiencias", i, e.target.value, "cargo")}
+                onChange={(ev) =>
+                  handleItemChange("experiencias", i, ev.target.value, "cargo")
+                }
               />
               <input
                 type="text"
                 placeholder="Período"
-                className="w-full mb-1 border rounded px-3 py-2"
+                className="input"
                 value={e.periodo}
-                onChange={(e) => handleItemChange("experiencias", i, e.target.value, "periodo")}
+                onChange={(ev) =>
+                  handleItemChange("experiencias", i, ev.target.value, "periodo")
+                }
               />
               <textarea
                 placeholder="Descrição"
-                className="w-full border rounded px-3 py-2"
+                className="textarea"
                 value={e.descricao}
-                onChange={(e) => handleItemChange("experiencias", i, e.target.value, "descricao")}
+                onChange={(ev) =>
+                  handleItemChange("experiencias", i, ev.target.value, "descricao")
+                }
               />
             </div>
           ))}
           <button
-            type="button"
             onClick={() => adicionarCampo("experiencias")}
-            className="text-blue-600 text-sm"
+            className="link-button"
           >
             + Adicionar experiência
           </button>
         </div>
 
-        {/* Cursos */}
-        <div className="mb-4">
-          <h2 className="font-semibold mb-2 text-blue-800">Cursos</h2>
-          {dados.cursos.map((c, i) => (
-            <input
-              key={i}
-              type="text"
-              placeholder={`Curso ${i + 1}`}
-              className="w-full mb-2 border px-3 py-2 rounded"
-              value={c}
-              onChange={(e) => handleItemChange("cursos", i, e.target.value)}
-            />
+        <div>
+          <h2 className="label">Cursos</h2>
+          {dados.cursos.map((curso, i) => (
+            <div key={i}>
+              <input
+                type="text"
+                placeholder="Curso"
+                className="input"
+                value={curso.nome}
+                onChange={(e) =>
+                  handleItemChange("cursos", i, e.target.value, "nome")
+                }
+              />
+              <input
+                type="text"
+                placeholder="Instituição"
+                className="input"
+                value={curso.instituicao}
+                onChange={(e) =>
+                  handleItemChange("cursos", i, e.target.value, "instituicao")
+                }
+              />
+              <input
+                type="text"
+                placeholder="Carga horária"
+                className="input"
+                value={curso.carga}
+                onChange={(e) =>
+                  handleItemChange("cursos", i, e.target.value, "carga")
+                }
+              />
+            </div>
           ))}
           <button
-            type="button"
             onClick={() => adicionarCampo("cursos")}
-            className="text-blue-600 text-sm"
+            className="link-button"
           >
             + Adicionar curso
           </button>
         </div>
 
-        {/* Habilidades */}
-        <div className="mb-6">
-          <h2 className="font-semibold mb-2 text-blue-800">Habilidades</h2>
+        <div>
+          <h2 className="label">Habilidades</h2>
           {dados.habilidades.map((h, i) => (
             <input
               key={i}
               type="text"
               placeholder={`Habilidade ${i + 1}`}
-              className="w-full mb-2 border px-3 py-2 rounded"
+              className="input"
               value={h}
-              onChange={(e) => handleItemChange("habilidades", i, e.target.value)}
+              onChange={(e) =>
+                handleItemChange("habilidades", i, e.target.value)
+              }
             />
           ))}
           <button
-            type="button"
             onClick={() => adicionarCampo("habilidades")}
-            className="text-blue-600 text-sm"
+            className="link-button"
           >
             + Adicionar habilidade
           </button>
@@ -191,7 +221,8 @@ export default function Home() {
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="button"
+          style={{ width: "100%" }}
         >
           Visualizar Currículo
         </button>
