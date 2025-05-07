@@ -64,7 +64,7 @@ export default function Preview() {
 
           {dados.formacoes?.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h2 className="label">Formação Acadêmica</h2>
+              <h2 className="preview-label">Formação Acadêmica</h2>
               {dados.formacoes.map((form, i) => (
                 <div key={i} style={{ marginBottom: "0.75rem" }}>
                   <h3 style={{ fontWeight: "bold" }}>{form.curso}</h3>
@@ -78,7 +78,7 @@ export default function Preview() {
 
           {dados.experiencias?.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h2 className="label">Experiências Profissionais</h2>
+              <h2 className="preview-label">Experiências Profissionais</h2>
               {dados.experiencias.map((exp, i) => (
                 <div key={i} style={{ marginBottom: "0.75rem" }}>
                   <h3 style={{ fontWeight: "bold" }}>{exp.empresa}</h3>
@@ -93,7 +93,7 @@ export default function Preview() {
 
           {dados.cursos?.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h2 className="label">Cursos</h2>
+              <h2 className="preview-label">Cursos</h2>
               {dados.cursos.map((curso, i) => (
                 <div key={i} style={{ marginLeft: "1rem", marginBottom: "0.5rem" }}>
                   <p><strong>{curso.nome}</strong></p>
@@ -107,7 +107,7 @@ export default function Preview() {
 
           {dados.habilidades?.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h2 className="label">Habilidades</h2>
+              <h2 className="preview-label">Habilidades</h2>
               <ul>
                 {dados.habilidades.map((skill, i) => (
                   <li key={i} style={{ listStyle: "disc", marginLeft: "1rem" }}>

@@ -145,8 +145,10 @@ body {
   align-items: center;
 }
 
-.card * {
-  color: #111 !important;
+.preview-label {
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #111;
 }
-
-
