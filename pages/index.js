@@ -49,12 +49,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center p-4">
       <div className="w-full max-w-2xl bg-white p-6 rounded shadow">
-        <h1 className="text-2xl font-bold mb-4 text-center">CV Express</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-800">CV Express</h1>
 
         {/* Dados pessoais */}
         {["nome", "cargo", "email", "telefone", "linkedin", "endereco"].map((campo) => (
           <div className="mb-4" key={campo}>
-            <label className="block text-sm font-medium mb-1 capitalize">{campo}</label>
+            <label className="block text-sm font-medium mb-1 capitalize text-blue-800">{campo}</label>
             <input
               type="text"
               name={campo}
@@ -67,7 +67,7 @@ export default function Home() {
 
         {/* Formação Acadêmica */}
         <div className="mb-4">
-          <h2 className="font-semibold mb-2">Formação Acadêmica</h2>
+          <h2 className="font-semibold mb-2 text-blue-800">Formação Acadêmica</h2>
           {dados.formacoes.map((f, i) => (
             <div key={i} className="mb-3">
               <input
@@ -104,7 +104,7 @@ export default function Home() {
 
         {/* Experiências Profissionais */}
         <div className="mb-4">
-          <h2 className="font-semibold mb-2">Experiência Profissional</h2>
+          <h2 className="font-semibold mb-2 text-blue-800">Experiência Profissional</h2>
           {dados.experiencias.map((e, i) => (
             <div key={i} className="mb-3">
               <input
@@ -147,7 +147,7 @@ export default function Home() {
 
         {/* Cursos */}
         <div className="mb-4">
-          <h2 className="font-semibold mb-2">Cursos</h2>
+          <h2 className="font-semibold mb-2 text-blue-800">Cursos</h2>
           {dados.cursos.map((c, i) => (
             <input
               key={i}
@@ -169,7 +169,7 @@ export default function Home() {
 
         {/* Habilidades */}
         <div className="mb-6">
-          <h2 className="font-semibold mb-2">Habilidades</h2>
+          <h2 className="font-semibold mb-2 text-blue-800">Habilidades</h2>
           {dados.habilidades.map((h, i) => (
             <input
               key={i}
