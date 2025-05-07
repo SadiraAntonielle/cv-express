@@ -131,8 +131,9 @@ body {
   margin-bottom: 0.5rem;
 }
 .card > div {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
 }
+
 
 .input:focus, .textarea:focus {
   border-color: #2563eb;
