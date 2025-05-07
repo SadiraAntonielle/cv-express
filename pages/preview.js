@@ -67,7 +67,7 @@ export default function Preview() {
               <h2 className="preview-label">Formação Acadêmica</h2>
               {dados.formacoes.map((form, i) => (
                 <div key={i} style={{ marginBottom: "0.75rem" }}>
-                  <h3 style={{ fontWeight: "bold" }}>{form.curso}</h3>
+                  <p style={{ fontWeight: "bold" }}>{form.curso}</p>
                   <p style={{ fontStyle: "italic", fontSize: "0.875rem" }}>
                     {form.instituicao} — {form.periodo}
                   </p>
@@ -81,7 +81,7 @@ export default function Preview() {
               <h2 className="preview-label">Experiências Profissionais</h2>
               {dados.experiencias.map((exp, i) => (
                 <div key={i} style={{ marginBottom: "0.75rem" }}>
-                  <h3 style={{ fontWeight: "bold" }}>{exp.empresa}</h3>
+                  <p style={{ fontWeight: "bold" }}>{exp.empresa}</p>
                   <p style={{ fontStyle: "italic", fontSize: "0.875rem" }}>
                     {exp.cargo} — {exp.periodo}
                   </p>
