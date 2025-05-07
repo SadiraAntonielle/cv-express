@@ -95,7 +95,7 @@ export default function Preview() {
             <div style={{ marginBottom: "1.5rem" }}>
               <h2 className="preview-label">Cursos</h2>
               {dados.cursos.map((curso, i) => (
-                <div key={i} style={{ marginLeft: "0.75rem", marginBottom: "0.5rem" }}>
+                <div key={i} style={{ marginLeft: "0.75rem", marginBottom: "0.75rem" }}>
                   <p><strong>{curso.nome}</strong></p>
                   <p style={{ fontSize: "0.875rem" }}>
                     {curso.instituicao} — {curso.carga}h
