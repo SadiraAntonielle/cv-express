@@ -1,4 +1,3 @@
-// pages/preview.js
 import { useEffect, useState, useRef } from "react";
 
 export default function Preview() {
@@ -43,6 +42,7 @@ export default function Preview() {
     <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-xl mx-auto">
         <button
+          type="button"
           onClick={gerarPDF}
           className="mb-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
