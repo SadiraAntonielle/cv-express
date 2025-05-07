@@ -1,256 +1,127 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { useEffect, useState, useRef } from "react";
 
-export default function Home() {
-  const [dados, setDados] = useState({
-    nome: "",
-    cargo: "",
-    email: "",
-    telefone: "",
-    linkedin: "",
-    endereco: {
-      rua: "",
-      numero: "",
-      bairro: "",
-      cidade: "",
-      cep: "",
-    },
-    formacoes: [{ curso: "", instituicao: "", periodo: "" }],
-    habilidades: [""],
-    cursos: [{ nome: "", instituicao: "", carga: "" }],
-    experiencias: [{ empresa: "", cargo: "", periodo: "", descricao: "" }],
-  });
+export default function Preview() {
+  const [dados, setDados] = useState(null);
+  const curriculoRef = useRef();
 
-  const router = useRouter();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDados({ ...dados, [name]: value });
-  };
-
-  const handleEnderecoChange = (e) => {
-    const { name, value } = e.target;
-    setDados({ ...dados, endereco: { ...dados.endereco, [name]: value } });
-  };
-
-  const handleItemChange = (campo, index, value, subcampo = null) => {
-    const atualizado = [...dados[campo]];
-    if (subcampo) {
-      atualizado[index][subcampo] = value;
-    } else {
-      atualizado[index] = value;
+  useEffect(() => {
+    const dadosSalvos = localStorage.getItem("curriculo");
+    if (dadosSalvos) {
+      setDados(JSON.parse(dadosSalvos));
     }
-    setDados({ ...dados, [campo]: atualizado });
+  }, []);
+
+  const gerarPDF = async () => {
+    try {
+      const html2pdf = await import("html2pdf.js");
+      const elemento = curriculoRef.current;
+
+      if (!elemento) {
+        alert("Currículo não encontrado.");
+        return;
+      }
+
+      const opt = {
+        margin: 0.5,
+        filename: "curriculo.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+      };
+
+      await html2pdf.default().set(opt).from(elemento).save();
+    } catch (error) {
+      console.error("Erro ao gerar o PDF:", error);
+    }
   };
 
-  const adicionarCampo = (campo) => {
-    const novos = {
-      formacoes: { curso: "", instituicao: "", periodo: "" },
-      experiencias: { empresa: "", cargo: "", periodo: "", descricao: "" },
-      habilidades: "",
-      cursos: { nome: "", instituicao: "", carga: "" },
-    };
-    setDados({ ...dados, [campo]: [...dados[campo], novos[campo]] });
-  };
-
-  const handleSubmit = () => {
-    localStorage.setItem("curriculo", JSON.stringify(dados));
-    router.push("/preview");
-  };
+  if (!dados) {
+    return <p style={{ padding: "1.5rem" }}>Carregando currículo...</p>;
+  }
 
   return (
     <div className="container">
       <div className="card">
-        <h1 className="title">CV Express</h1>
-
-        {["nome", "cargo", "email", "telefone", "linkedin"].map((campo) => (
-          <div key={campo}>
-            <label className="label">{campo}</label>
-            <input
-              type="text"
-              name={campo}
-              value={dados[campo]}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-        ))}
-
-        <div>
-          <h2 className="label">Endereço</h2>
-          {["rua", "numero", "bairro", "cidade", "cep"].map((campo) => (
-            <input
-              key={campo}
-              type="text"
-              name={campo}
-              placeholder={campo.charAt(0).toUpperCase() + campo.slice(1)}
-              value={dados.endereco[campo]}
-              onChange={handleEnderecoChange}
-              className="input"
-            />
-          ))}
-        </div>
-
-        <div>
-          <h2 className="label">Formação Acadêmica</h2>
-          {dados.formacoes.map((f, i) => (
-            <div key={i}>
-              <input
-                type="text"
-                placeholder="Curso"
-                className="input"
-                value={f.curso}
-                onChange={(e) =>
-                  handleItemChange("formacoes", i, e.target.value, "curso")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Instituição"
-                className="input"
-                value={f.instituicao}
-                onChange={(e) =>
-                  handleItemChange("formacoes", i, e.target.value, "instituicao")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Período"
-                className="input"
-                value={f.periodo}
-                onChange={(e) =>
-                  handleItemChange("formacoes", i, e.target.value, "periodo")
-                }
-              />
-            </div>
-          ))}
-          <button
-            onClick={() => adicionarCampo("formacoes")}
-            className="link-button"
-          >
-            + Adicionar formação
-          </button>
-        </div>
-
-        <div>
-          <h2 className="label">Experiência Profissional</h2>
-          {dados.experiencias.map((e, i) => (
-            <div key={i}>
-              <input
-                type="text"
-                placeholder="Empresa"
-                className="input"
-                value={e.empresa}
-                onChange={(ev) =>
-                  handleItemChange("experiencias", i, ev.target.value, "empresa")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Cargo"
-                className="input"
-                value={e.cargo}
-                onChange={(ev) =>
-                  handleItemChange("experiencias", i, ev.target.value, "cargo")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Período"
-                className="input"
-                value={e.periodo}
-                onChange={(ev) =>
-                  handleItemChange("experiencias", i, ev.target.value, "periodo")
-                }
-              />
-              <textarea
-                placeholder="Descrição"
-                className="textarea"
-                value={e.descricao}
-                onChange={(ev) =>
-                  handleItemChange("experiencias", i, ev.target.value, "descricao")
-                }
-              />
-            </div>
-          ))}
-          <button
-            onClick={() => adicionarCampo("experiencias")}
-            className="link-button"
-          >
-            + Adicionar experiência
-          </button>
-        </div>
-
-        <div>
-          <h2 className="label">Cursos</h2>
-          {dados.cursos.map((curso, i) => (
-            <div key={i}>
-              <input
-                type="text"
-                placeholder="Curso"
-                className="input"
-                value={curso.nome}
-                onChange={(e) =>
-                  handleItemChange("cursos", i, e.target.value, "nome")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Instituição"
-                className="input"
-                value={curso.instituicao}
-                onChange={(e) =>
-                  handleItemChange("cursos", i, e.target.value, "instituicao")
-                }
-              />
-              <input
-                type="text"
-                placeholder="Carga horária"
-                className="input"
-                value={curso.carga}
-                onChange={(e) =>
-                  handleItemChange("cursos", i, e.target.value, "carga")
-                }
-              />
-            </div>
-          ))}
-          <button
-            onClick={() => adicionarCampo("cursos")}
-            className="link-button"
-          >
-            + Adicionar curso
-          </button>
-        </div>
-
-        <div>
-          <h2 className="label">Habilidades</h2>
-          {dados.habilidades.map((h, i) => (
-            <input
-              key={i}
-              type="text"
-              placeholder={`Habilidade ${i + 1}`}
-              className="input"
-              value={h}
-              onChange={(e) =>
-                handleItemChange("habilidades", i, e.target.value)
-              }
-            />
-          ))}
-          <button
-            onClick={() => adicionarCampo("habilidades")}
-            className="link-button"
-          >
-            + Adicionar habilidade
-          </button>
-        </div>
-
         <button
-          onClick={handleSubmit}
+          onClick={gerarPDF}
           className="button"
-          style={{ width: "100%" }}
+          style={{ marginBottom: "1rem" }}
         >
-          Visualizar Currículo
+          Baixar PDF
         </button>
+
+        <div ref={curriculoRef} style={{ color: "#1f2937" }}>
+          <h1 style={{ fontSize: "1.5rem", fontWeight: "bold", marginBottom: "0.5rem" }}>
+            {dados.nome}
+          </h1>
+          <p style={{ fontWeight: "600" }}>{dados.cargo}</p>
+          <p>{dados.email}</p>
+          <p>{dados.telefone}</p>
+          <p>{dados.linkedin}</p>
+          <p style={{ marginBottom: "1rem" }}>
+            {dados.endereco?.rua}, {dados.endereco?.numero} — {dados.endereco?.bairro}, {dados.endereco?.cidade} — CEP {dados.endereco?.cep}
+          </p>
+
+          {dados.formacoes?.length > 0 && (
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h2 className="label">Formação Acadêmica</h2>
+              {dados.formacoes.map((form, i) => (
+                <div key={i} style={{ marginBottom: "0.75rem" }}>
+                  <h3 style={{ fontWeight: "bold" }}>{form.curso}</h3>
+                  <p style={{ fontStyle: "italic", fontSize: "0.875rem" }}>
+                    {form.instituicao} — {form.periodo}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {dados.experiencias?.length > 0 && (
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h2 className="label">Experiências Profissionais</h2>
+              {dados.experiencias.map((exp, i) => (
+                <div key={i} style={{ marginBottom: "0.75rem" }}>
+                  <h3 style={{ fontWeight: "bold" }}>{exp.empresa}</h3>
+                  <p style={{ fontStyle: "italic", fontSize: "0.875rem" }}>
+                    {exp.cargo} — {exp.periodo}
+                  </p>
+                  <p style={{ fontSize: "0.875rem" }}>{exp.descricao}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {dados.cursos?.length > 0 && (
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h2 className="label">Cursos</h2>
+              {dados.cursos.map((curso, i) => (
+                <div key={i} style={{ marginLeft: "1rem", marginBottom: "0.5rem" }}>
+                  <p><strong>{curso.nome}</strong></p>
+                  <p style={{ fontSize: "0.875rem" }}>
+                    {curso.instituicao} — {curso.carga}h
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {dados.habilidades?.length > 0 && (
+            <div style={{ marginBottom: "1.5rem" }}>
+              <h2 className="label">Habilidades</h2>
+              <ul>
+                {dados.habilidades.map((skill, i) => (
+                  <li key={i} style={{ listStyle: "disc", marginLeft: "1rem" }}>
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <footer className="footer" style={{ marginTop: "2rem", textAlign: "center", fontSize: "0.875rem", color: "#6b7280" }}>
+          Criado por Sadira Oliveira · Parcerias: (35) 98880-1235
+        </footer>
       </div>
     </div>
   );
