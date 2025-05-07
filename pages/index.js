@@ -8,7 +8,7 @@ export default function Home() {
     email: "",
     telefone: "",
     linkedin: "",
-    endereco: "",
+    endereco: { rua: "", numero: "", bairro: "", cidade: "", cep: "" },
     formacoes: [{ curso: "", instituicao: "", periodo: "" }],
     habilidades: [""],
     cursos: [{ nome: "", instituicao: "", carga: "" }],
@@ -19,6 +19,17 @@ export default function Home() {
 
   const handleChange = (e) => {
     setDados({ ...dados, [e.target.name]: e.target.value });
+  };
+
+  const handleEnderecoChange = (e) => {
+    const { name, value } = e.target;
+    setDados({
+      ...dados,
+      endereco: {
+        ...dados.endereco,
+        [name]: value,
+      },
+    });
   };
 
   const handleItemChange = (campo, index, value, subcampo = null) => {
@@ -51,20 +62,33 @@ export default function Home() {
       <div className="card">
         <h1 className="title">CV Express</h1>
 
-        {["nome", "cargo", "email", "telefone", "linkedin", "endereco"].map(
-          (campo) => (
-            <div key={campo}>
-              <label className="label">{campo}</label>
-              <input
-                type="text"
-                name={campo}
-                value={dados[campo]}
-                onChange={handleChange}
-                className="input"
-              />
-            </div>
-          )
-        )}
+        {["nome", "cargo", "email", "telefone", "linkedin"].map((campo) => (
+          <div key={campo}>
+            <label className="label">{campo}</label>
+            <input
+              type="text"
+              name={campo}
+              value={dados[campo]}
+              onChange={handleChange}
+              className="input"
+            />
+          </div>
+        ))}
+
+        <div>
+          <h2 className="label">Endereço</h2>
+          {["rua", "numero", "bairro", "cidade", "cep"].map((campo) => (
+            <input
+              key={campo}
+              type="text"
+              name={campo}
+              placeholder={campo.charAt(0).toUpperCase() + campo.slice(1)}
+              value={dados.endereco[campo]}
+              onChange={handleEnderecoChange}
+              className="input"
+            />
+          ))}
+        </div>
 
         <div>
           <h2 className="label">Formação Acadêmica</h2>
