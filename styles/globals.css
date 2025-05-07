@@ -51,11 +51,11 @@ body {
 
 .label {
   display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.875rem;
+  font-weight: 500;
   margin-bottom: 0.25rem;
   text-transform: capitalize;
-  color: #111827;
+  color: #2563eb; /* azul */
 }
 
 .input,
